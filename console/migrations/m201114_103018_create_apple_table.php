@@ -14,20 +14,20 @@ class m201114_103018_create_apple_table extends Migration
     {
         $this->createTable('{{%apple_color}}', [
             'id' => $this->primaryKey()->unsigned(),
-            'color' => $this->string(),
+            'color' => $this->string()->notNull(),
         ]);
 
         $this->createTable('{{%apple_state}}', [
             'id' => $this->primaryKey()->unsigned(),
-            'state' => $this->string(),
+            'state' => $this->string()->notNull(),
         ]);
 
         $this->createTable('{{%apple}}', [
             'id' => $this->primaryKey()->unsigned(),
-            'color_id' => $this->integer()->unsigned(),
-            'state_id' => $this->integer()->unsigned(),
-            'size' => $this->decimal(3, 2),
-            'appeared_at' => $this->timestamp(),
+            'color_id' => $this->integer()->unsigned()->notNull(),
+            'state_id' => $this->integer()->unsigned()->notNull(),
+            'size' => $this->decimal(3, 2)->notNull(),
+            'appeared_at' => $this->timestamp()->notNull(),
             'fall_at' => $this->timestamp(),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => 'timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP',
