@@ -55,6 +55,12 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            ['email', 'email', 'message' => 'Не является правильным e-Mail адресом'],
+            ['email', 'unique', 'message' => 'Пользователь с таким e-mail\'ом уже зарегистрирован'],
+            ['username', 'unique', 'message' => 'Пользователь с таким именем уже зарегистрирован'],
+            ['username', 'required', 'message' => 'Имя не заполнено'],
+            ['email', 'required', 'message' => 'E-mail не заполнен'],
+            ['password_hash', 'required', 'message' => 'Пароль не заполнен'],
         ];
     }
 
