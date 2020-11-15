@@ -72,6 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'fall_at',
             [
                 'class' => ActionColumn::class,
+                'header' => 'Действия',
                 'template' => '{fall-to-ground} {eat-25} {eat-50} {eat-100}',
                 'buttons' => [
                     'fall-to-ground' => static function(string $url, Apple $apple, $key) {
