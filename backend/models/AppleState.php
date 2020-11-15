@@ -15,6 +15,10 @@ use yii\db\ActiveRecord;
  */
 class AppleState extends ActiveRecord
 {
+    public const ID_HANGING_ON_A_TREE = 1;
+    public const ID_LIES_ON_THE_GROUND = 2;
+    public const ID_ROTTEN_APPLE = 3;
+
     public static function tableName(): string
     {
         return 'apple_state';

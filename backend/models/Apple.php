@@ -45,7 +45,7 @@ class Apple extends ActiveRecord
             'id' => 'ID',
             'color_id' => 'Цвет',
             'state_id' => 'Состояние',
-            'size' => 'Размер',
+            'size' => 'Цельность',
             'appeared_at' => 'Дата появления',
             'fall_at' => 'Дата падения',
             'created_at' => 'Дата создания',
@@ -61,5 +61,53 @@ class Apple extends ActiveRecord
     public function getState(): ActiveQuery
     {
         return $this->hasOne(AppleState::class, ['id' => 'state_id']);
+    }
+
+    /**
+     * Упасть на землю
+     */
+    public function fallToGround()
+    {
+        if (in_array($this->state_id, [AppleState::ID_LIES_ON_THE_GROUND, AppleState::ID_ROTTEN_APPLE])) {
+            throw new \Exception('Яблоко уже на земле');
+        }
+        if ($this->state_id == AppleState::ID_HANGING_ON_A_TREE) {
+            $this->state_id = AppleState::ID_LIES_ON_THE_GROUND;
+            $this->fall_at = date('Y-m-d H:i:s');
+        }
+    }
+
+    /**
+     * Съесть
+     *
+     * @param int $eatenSize 0-100%
+     */
+    public function eat(int $eatenSize)
+    {
+        if ($this->state_id == AppleState::ID_HANGING_ON_A_TREE) {
+            throw new \Exception('Съесть нельзя, яблоко на дереве');
+        }
+        if ($this->state_id == AppleState::ID_ROTTEN_APPLE) {
+            throw new \Exception('Съесть нельзя, яблоко сгнило');
+        }
+        if ($this->canEat()) {
+            $this->size -= min($this->size, $eatenSize / 100);
+        }
+    }
+
+    /**
+     * @return bool Съедено полностью?
+     */
+    public function isEaten(): bool
+    {
+        return empty($this->size);
+    }
+
+    /**
+     * @return bool Можно съесть?
+     */
+    public function canEat(): bool
+    {
+        return $this->state_id == AppleState::ID_LIES_ON_THE_GROUND;
     }
 }
